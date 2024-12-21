@@ -59,7 +59,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QTableView" name="tableView">
+   <widget class="QTableView" name="shopTable">
     <property name="geometry">
      <rect>
       <x>170</x>
