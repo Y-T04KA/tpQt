@@ -20,13 +20,16 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         ${TS_FILES}
+        data/DataController.cpp
+        data/DataController.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(tpQt
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        shops.h shops.cpp shops.ui
+            shops/shops.h shops/shops.cpp shops/shops.ui
+            inventory/inventory.h inventory/inventory.cpp inventory/inventory.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET tpQt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

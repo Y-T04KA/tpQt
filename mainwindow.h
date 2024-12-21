@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 
-#include "shops.h"
+#include "shops/shops.h"
+#include "inventory/inventory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,9 +22,11 @@ public:
 
 private slots:
     void on_shopsButton_clicked();
+    void on_inventoryButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     Shops shops;
+    Inventory inv;
 };
 #endif // MAINWINDOW_H
