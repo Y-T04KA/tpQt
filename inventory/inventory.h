@@ -6,7 +6,7 @@
 #include <QStandardItemModel>
 
 #include "../data/DataController.h"
-#include "../inputdialog.h"
+#include "../windows/inputdialog.h"
 #include "ui_inventory.h"
 
 namespace Ui {

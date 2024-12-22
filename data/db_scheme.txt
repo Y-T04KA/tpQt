@@ -1,0 +1,25 @@
+-- Table: Shops
+CREATE TABLE Shops (
+                       id_shop INTEGER PRIMARY KEY AUTOINCREMENT,  -- Autoincremented integer ID for each shop
+                       name_shop TEXT NOT NULL                     -- Name of the shop (text field)
+);
+
+-- Table: Items
+CREATE TABLE Items (
+                       id_item INTEGER PRIMARY KEY AUTOINCREMENT,  -- Autoincremented integer ID for each item
+                       name_item TEXT NOT NULL                     -- Name of the item (text field)
+);
+
+-- Table: Inventory
+CREATE TABLE Inventory (
+                           id_item INTEGER,                            -- ID of the item (foreign key from Items table)
+                           id_shop INTEGER,                            -- ID of the shop (foreign key from Shops table)
+                           number INTEGER NOT NULL,                    -- The quantity of the item in the shop
+
+    -- Foreign key constraints to ensure valid IDs
+                           FOREIGN KEY (id_item) REFERENCES Items(id_item),
+                           FOREIGN KEY (id_shop) REFERENCES Shops(id_shop),
+
+    -- Ensure that each combination of id_item and id_shop is unique (1 item per shop)
+                           PRIMARY KEY (id_item, id_shop)
+);
