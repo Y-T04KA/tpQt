@@ -121,6 +121,17 @@ bool DataController::createShop(const QString& shopName) const
     return query.exec();
 }
 
+bool DataController::createItem(const QString& itemName)
+{
+    //rudimentary sql injection check
+    if (itemName.contains("DROP TABLE") || itemName.contains("DROP DATABASE")) return false;
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO Items (name_item) VALUES (:item)");
+    query.bindValue(":item", itemName);
+    return query.exec();
+}
+
+
 bool DataController::deleteShop(const int& shopId) const
 {
     QSqlQuery query(db);
@@ -137,4 +148,36 @@ bool DataController::updateShop(const QString& shopId, const QString& shopName)
     query.bindValue(":id", shopId);
     return query.exec();
 }
+
+bool DataController::newDelivery(const int& itemId, const int& shopId, const int& quantity)
+{
+    QSqlQuery query(db);
+    query.prepare("SELECT * FROM Inventory WHERE id_item = :item AND id_shop = :shop");
+    query.bindValue(":item", itemId);
+    query.bindValue(":shop", shopId);
+    if (query.exec() && query.next())
+    {
+        //exists
+        query.prepare("UPDATE Inventory SET number = number + :quantity WHERE id_item = :item AND id_shop = :shop");
+    } else
+    {
+        //dont exist
+        query.prepare("INSERT INTO Inventory VALUES (:item, :shop, :quantity)");
+    }
+    query.bindValue(":item", itemId);
+    query.bindValue(":shop", shopId);
+    query.bindValue(":quantity", quantity);
+    return query.exec();
+}
+
+bool DataController::removeItem(const int& itemId, const int& shopId, const int& quantity)
+{
+    QSqlQuery query(db);
+    query.prepare("UPDATE Inventory SET number = number - :quantity WHERE id_item = :item AND id_shop = :shop");
+    query.bindValue(":item", itemId);
+    query.bindValue(":shop", shopId);
+    query.bindValue(":quantity", quantity);
+    return query.exec();
+}
+
 

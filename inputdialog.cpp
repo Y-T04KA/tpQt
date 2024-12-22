@@ -23,6 +23,12 @@ InputDialog::InputDialog(QWidget *parent, const QString &prompt)
         ui->shopName->setEnabled(true);
         ui->shopName->setPlaceholderText("Название");
     }
+    if (prompt.contains("размер"))
+    {
+        ui->shopName->setHidden(false);
+        ui->shopName->setEnabled(true);
+        ui->shopName->setPlaceholderText("Количество товара");
+    }
 }
 
 InputDialog::~InputDialog()

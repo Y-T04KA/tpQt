@@ -24,7 +24,7 @@ class DataController {
 
     bool createItem(const QString& itemName);
     bool newDelivery(const int& itemId, const int& shopId, const int& quantity);
-    bool removeItem(const int& itemId, const int& quantity);
+    bool removeItem(const int& itemId, const int& shopId, const int& quantity);
 
     std::vector<QStringList> table;
     int getRowCount() const;

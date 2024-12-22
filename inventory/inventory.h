@@ -37,6 +37,9 @@ private:
     DataController *data;
     QStandardItemModel model;
     void fillTable(const int& page);
+    bool addItemQuery(const QString& item);
+    bool deliveryQuery(const int& shop, const int& item, const int& deliverySize);
+    bool removeQuery(const int& shop, const int& item, const int& deliverySize);
 };
 
 #endif // INVENTORY_H

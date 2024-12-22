@@ -75,21 +75,72 @@ Inventory::~Inventory()
     delete ui;
 }
 
+bool Inventory::addItemQuery(const QString& item)
+{
+    if (item.isEmpty()) return false;
+    return data->createItem(item);
+}
+
 void Inventory::on_createItemButton_clicked()
 {
-    phMessage();
+    auto createDialog = new InputDialog(this, "Введите название товара");
+    createDialog->exec();
+    if (createDialog->isOkClicked)
+    {
+        auto newItemName = createDialog->getShopName();
+        if (!addItemQuery(newItemName))
+        {
+            phMessage();
+        };
+    }
+}
+
+bool Inventory::deliveryQuery(const int& shop, const int& item, const int& deliverySize)
+{
+    return data->newDelivery(item, shop, deliverySize);
 }
 
 
 void Inventory::on_newDeliveryButton_clicked()
 {
-    phMessage();
+    auto shopDialog = new InputDialog(this, "Введите id принимающего магазина");
+    shopDialog->exec();
+    if (shopDialog->isOkClicked)
+    {
+        auto itemDialog = new InputDialog(this, "Введите id принимаемого товара и размер партии");
+        itemDialog->exec();
+        if (itemDialog->isOkClicked)
+        {
+            if (!deliveryQuery(shopDialog->getIdLine().toInt(), itemDialog->getIdLine().toInt(), itemDialog->getShopName().toInt()))
+            {
+                phMessage();
+            }
+        }
+    }
+
 }
 
+bool Inventory::removeQuery(const int& shop, const int& item, const int& deliverySize)
+{
+    return data->removeItem(item, shop, deliverySize);
+}
 
 void Inventory::on_removeItemButton_clicked()
 {
-    phMessage();
+    auto shopDialog = new InputDialog(this, "Введите id магазина откуда убыль");
+    shopDialog->exec();
+    if (shopDialog->isOkClicked)
+    {
+        auto itemDialog = new InputDialog(this, "Введите id убываемого товара и размер вычета");
+        itemDialog->exec();
+        if (itemDialog->isOkClicked)
+        {
+            if (!removeQuery(shopDialog->getIdLine().toInt(), itemDialog->getIdLine().toInt(), itemDialog->getShopName().toInt()))
+            {
+                phMessage();
+            }
+        }
+    }
 }
 
 void Inventory::phMessage()
