@@ -8,14 +8,20 @@ InputDialog::InputDialog(QWidget *parent, const QString &prompt)
     ui->setupUi(this);
 
     ui->inputPrompt->setText(prompt);
+    ui->idLine->setHidden(true);
+    ui->shopName->setHidden(true);
 
     if (prompt.contains("id магазина"))
     {
+        ui->idLine->setHidden(false);
         ui->idLine->setEnabled(true);
+        ui->idLine->setPlaceholderText("Id магазина");
     }
     if (prompt.contains("название магазина"))
     {
+        ui->shopName->setHidden(false);
         ui->shopName->setEnabled(true);
+        ui->shopName->setPlaceholderText("Магазин");
     }
 }
 
@@ -36,6 +42,6 @@ QString InputDialog::getShopName()
 
 void InputDialog::on_buttonBox_accepted()
 {
-    isOk = true;
+    isOkClicked = true;
 }
 

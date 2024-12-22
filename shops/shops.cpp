@@ -24,6 +24,7 @@ void Shops::fillTable()
 {
     if (!data->getShops()) phMessage();
     model.clear();
+    ui->shopTable->reset();
     model.setColumnCount(2);
     model.setHeaderData(0, Qt::Horizontal, "id");
     model.setHeaderData(1, Qt::Horizontal, "Магазин");
@@ -35,8 +36,6 @@ void Shops::fillTable()
     }
 
     ui->shopTable->setModel(&model);
-    ui->shopTable->reset();
-    ui->shopTable->update();
 }
 
 bool Shops::addShopQuery(const QString& shop)
@@ -45,12 +44,24 @@ bool Shops::addShopQuery(const QString& shop)
     return data->createShop(shop);
 }
 
+bool Shops::deleteShopQuery(const QString& shop)
+{
+    if (shop.isEmpty()) return false;
+    return data->deleteShop(shop.toInt());
+}
+
+bool Shops::updateShopQuery(const QString& id,const QString& shop)
+{
+    if (shop.isEmpty()) return false;
+    return data->updateShop(id, shop);
+}
+
 
 void Shops::on_createButton_clicked()
 {
     auto createDialog = new InputDialog(this,QString("Введите название магазина:"));
     createDialog->exec();
-    if (createDialog->isOk)
+    if (createDialog->isOkClicked)
     {
         auto newShopName = createDialog->getShopName();
         if (!addShopQuery(newShopName))
@@ -64,13 +75,49 @@ void Shops::on_createButton_clicked()
 
 void Shops::on_deleteButton_clicked()
 {
-    phMessage();
+    auto deleteDialog = new InputDialog(this, QString("Введите id магазина для удаления"));
+    deleteDialog->exec();
+    if (deleteDialog->isOkClicked)
+    {
+        auto idToDelete = deleteDialog->getIdLine();
+        bool ok = false;
+        idToDelete.toInt(&ok);
+        if (idToDelete.toInt() <= model.rowCount() && ok)
+        {
+            // query path
+            if (!deleteShopQuery(idToDelete))
+            {
+                phMessage();
+            }
+        } else
+        {
+            QMessageBox::critical(this,"Ошибка", "Неправильный id");
+        };
+    }
 }
 
 
 void Shops::on_updateButton_clicked()
 {
-    phMessage();
+    auto updateDialog = new InputDialog(this, QString("Введите id магазина и новое название магазина"));
+    updateDialog->exec();
+    if (updateDialog->isOkClicked)
+    {
+        auto idToUpdate = updateDialog->getIdLine();
+        bool ok = false;
+        idToUpdate.toInt(&ok);
+        if (idToUpdate.toInt() <= model.rowCount() && ok)
+        {
+            // query path
+            if (!updateShopQuery(idToUpdate, updateDialog->getShopName()))
+            {
+                phMessage();
+            }
+        } else
+        {
+            QMessageBox::critical(this,"Ошибка", "Неправильный id");
+        };
+    }
 }
 
 void Shops::phMessage()

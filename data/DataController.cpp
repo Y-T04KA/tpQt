@@ -15,7 +15,7 @@ DataController::DataController(const QString& path)
     }
 }
 
-int DataController::getRowCount()
+int DataController::getRowCount() const
 {
     return table[0].size();
 }
@@ -47,7 +47,7 @@ bool DataController::getShops()
     return success;
 }
 
-bool DataController::createShop(const QString& shopName)
+bool DataController::createShop(const QString& shopName) const
 {
     //bool success = false;
     //rudimentary sql injection check
@@ -57,3 +57,21 @@ bool DataController::createShop(const QString& shopName)
     query.bindValue(":shop", shopName);
     return query.exec();
 }
+
+bool DataController::deleteShop(const int& shopId) const
+{
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM Shops WHERE id_shop = :shop");
+    query.bindValue(":shop", shopId);
+    return query.exec();
+}
+
+bool DataController::updateShop(const QString& shopId, const QString& shopName)
+{
+    QSqlQuery query(db);
+    query.prepare("UPDATE Shops SET name_shop = :shop WHERE id_shop = :id");
+    query.bindValue(":shop", shopName);
+    query.bindValue(":id", shopId);
+    return query.exec();
+}
+

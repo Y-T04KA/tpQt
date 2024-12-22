@@ -33,6 +33,8 @@ private:
     void fillTable();
     DataController *data;
     bool addShopQuery(const QString &shop);
+    bool deleteShopQuery(const QString &shop);
+    bool updateShopQuery(const QString& id,const QString &shop);
 };
 
 #endif // SHOPS_H

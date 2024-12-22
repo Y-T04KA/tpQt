@@ -17,7 +17,7 @@ public:
 
     QString getIdLine();
     QString getShopName();
-    bool isOk = false;
+    bool isOkClicked = false;
 
     private slots:
     void on_buttonBox_accepted();

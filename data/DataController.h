@@ -14,9 +14,9 @@ class DataController {
     explicit DataController(const QString& path);
     ~DataController();
     bool getShops();
-    bool createShop(const QString& shopName);
-    bool updateShop(const int& shopId);
-    bool deleteShop(const int& shopId);
+    bool createShop(const QString& shopName) const;
+    bool updateShop(const QString& shopId, const QString& shopName);
+    bool deleteShop(const int& shopId) const;
 
     bool getItems();
     bool getItemsInShop(const int& shopId);
@@ -27,7 +27,7 @@ class DataController {
     bool removeItem(const int& itemId, const int& quantity);
 
     std::vector<QStringList> table;
-    int getRowCount();
+    int getRowCount() const;
     QString getColumnAtRow(const int& item, const int& row);
     private:
     QSqlDatabase db;
