@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QStandardItemModel>
+
+#include "../data/DataController.h"
+#include "../inputdialog.h"
+#include "ui_inventory.h"
 
 namespace Ui {
 class Inventory;
@@ -23,9 +28,15 @@ private slots:
 
     void on_removeItemButton_clicked();
 
+    void on_tabWidget_tabBarClicked(int index);
+
 private:
+    int currentShop = 1; // надо заменить на чтение из конфига
     Ui::Inventory *ui;
     void phMessage();
+    DataController *data;
+    QStandardItemModel model;
+    void fillTable(const int& page);
 };
 
 #endif // INVENTORY_H

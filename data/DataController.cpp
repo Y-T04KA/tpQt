@@ -6,12 +6,14 @@
 
 DataController::DataController(const QString& path)
 {
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(path);
-    bool status = db.open();
     if (!db.isOpen())
     {
-        qDebug() << "Failed to open database";
+        db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setDatabaseName(path);
+        if (!db.open())
+        {
+            qDebug() << "Failed to open database";
+        }
     }
 }
 
@@ -29,13 +31,13 @@ QString DataController::getColumnAtRow(const int& col, const int& row)
 bool DataController::getShops()
 {
     bool success = false;
+    table.clear();
     //query validity check
 
     QStringList ids;
     QStringList shops;
     QSqlQuery query(db);
     success = query.exec("select * FROM Shops");
-    int idShop = 0;
     while (query.next())
     {
         ids.append(query.value(0).toString());
@@ -46,6 +48,67 @@ bool DataController::getShops()
 
     return success;
 }
+
+bool DataController::getItems()
+{
+    bool success = false;
+    table.clear();
+    QStringList ids;
+    QStringList items;
+    QSqlQuery query(db);
+    success = query.exec("select * FROM Items");
+    while (query.next())
+    {
+        ids.append(query.value(0).toString());
+        items.append(query.value(1).toString());
+    }
+    table.emplace_back(ids);
+    table.emplace_back(items);
+    return success;
+}
+
+
+bool DataController::getItemsInShop(const int& shopId)
+{
+    bool success = false;
+    table.clear();
+    QStringList item;
+    QStringList quantity;
+    QSqlQuery query(db);
+    query.prepare("SELECT Items.name_item, Inventory.number FROM Inventory INNER JOIN Items ON Inventory.id_item=Items.id_item WHERE id_shop = :id");
+    query.bindValue(":id", shopId);
+    success = query.exec();
+    while (query.next())
+    {
+        item.append(query.value(0).toString());
+        quantity.append(query.value(1).toString());
+    }
+    table.emplace_back(item);
+    table.emplace_back(quantity);
+    return success;
+}
+
+bool DataController::getItemByShops(const int& itemId)
+{
+    bool success = false;
+    table.clear();
+    QStringList shop;
+    QStringList quantity;
+    QSqlQuery query(db);
+    query.prepare("SELECT Shops.name_shop, Inventory.number FROM Inventory INNER JOIN Shops ON Inventory.id_shop=Shops.id_shop WHERE Inventory.id_shop = :id");
+    query.bindValue(":id", itemId);
+    success = query.exec();
+    while (query.next())
+    {
+        shop.append(query.value(0).toString());
+        quantity.append(query.value(1).toString());
+    }
+    table.emplace_back(shop);
+    table.emplace_back(quantity);
+    return success;
+}
+
+
 
 bool DataController::createShop(const QString& shopName) const
 {

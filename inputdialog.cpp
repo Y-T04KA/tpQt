@@ -11,17 +11,17 @@ InputDialog::InputDialog(QWidget *parent, const QString &prompt)
     ui->idLine->setHidden(true);
     ui->shopName->setHidden(true);
 
-    if (prompt.contains("id магазина"))
+    if (prompt.contains("id"))
     {
         ui->idLine->setHidden(false);
         ui->idLine->setEnabled(true);
-        ui->idLine->setPlaceholderText("Id магазина");
+        ui->idLine->setPlaceholderText("id");
     }
-    if (prompt.contains("название магазина"))
+    if (prompt.contains("название"))
     {
         ui->shopName->setHidden(false);
         ui->shopName->setEnabled(true);
-        ui->shopName->setPlaceholderText("Магазин");
+        ui->shopName->setPlaceholderText("Название");
     }
 }
 

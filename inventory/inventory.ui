@@ -24,13 +24,13 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="inShop">
      <attribute name="title">
       <string>Товары в магазине</string>
      </attribute>
-     <widget class="QTableView" name="tableView">
+     <widget class="QTableView" name="inShopTable">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -45,7 +45,22 @@
      <attribute name="title">
       <string>Все товары</string>
      </attribute>
-     <widget class="QTableView" name="tableView_2">
+     <widget class="QTableView" name="itemsAllTable">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>671</width>
+        <height>521</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="itemsByShop">
+     <attribute name="title">
+      <string>Товар по магазинам</string>
+     </attribute>
+     <widget class="QTableView" name="itemsByShopTable">
       <property name="geometry">
        <rect>
         <x>0</x>
