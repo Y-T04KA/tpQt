@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include "ui_shops.h"
 #include "../data/DataController.h"
+#include "../inputdialog.h"
 
 namespace Ui {
 class Shops;
@@ -31,6 +32,7 @@ private:
     QStandardItemModel model;
     void fillTable();
     DataController *data;
+    bool addShopQuery(const QString &shop);
 };
 
 #endif // SHOPS_H

@@ -22,7 +22,7 @@ Shops::~Shops()
 
 void Shops::fillTable()
 {
-    bool huh = data->getShops();
+    if (!data->getShops()) phMessage();
     model.clear();
     model.setColumnCount(2);
     model.setHeaderData(0, Qt::Horizontal, "id");
@@ -35,12 +35,30 @@ void Shops::fillTable()
     }
 
     ui->shopTable->setModel(&model);
+    ui->shopTable->reset();
     ui->shopTable->update();
 }
 
+bool Shops::addShopQuery(const QString& shop)
+{
+    if (shop.isEmpty()) return false;
+    return data->createShop(shop);
+}
+
+
 void Shops::on_createButton_clicked()
 {
-
+    auto createDialog = new InputDialog(this,QString("Введите название магазина:"));
+    createDialog->exec();
+    if (createDialog->isOk)
+    {
+        auto newShopName = createDialog->getShopName();
+        if (!addShopQuery(newShopName))
+        {
+            phMessage();
+        };
+    }
+    fillTable(); //должна обновляться таблица в интерфейсе но почему-то этого не делает
 }
 
 
@@ -57,5 +75,5 @@ void Shops::on_updateButton_clicked()
 
 void Shops::phMessage()
 {
-    QMessageBox::critical(this,"Важно","Ты пидор");
+    QMessageBox::critical(this,"Важно","Ошибка");
 }

@@ -35,7 +35,6 @@ bool DataController::getShops()
     QStringList shops;
     QSqlQuery query(db);
     success = query.exec("select * FROM Shops");
-    //int idShop = query.record().indexOf("name_shop");
     int idShop = 0;
     while (query.next())
     {
@@ -48,3 +47,13 @@ bool DataController::getShops()
     return success;
 }
 
+bool DataController::createShop(const QString& shopName)
+{
+    //bool success = false;
+    //rudimentary sql injection check
+    if (shopName.contains("DROP TABLE") || shopName.contains("DROP DATABASE")) return false;
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO Shops (name_shop) VALUES (:shop)");
+    query.bindValue(":shop", shopName);
+    return query.exec();
+}

@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
             shops/shops.h shops/shops.cpp shops/shops.ui
             inventory/inventory.h inventory/inventory.cpp inventory/inventory.ui
+            inputdialog.h inputdialog.cpp inputdialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET tpQt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
