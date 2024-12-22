@@ -95,7 +95,7 @@ bool DataController::getItemByShops(const int& itemId)
     QStringList shop;
     QStringList quantity;
     QSqlQuery query(db);
-    query.prepare("SELECT Shops.name_shop, Inventory.number FROM Inventory INNER JOIN Shops ON Inventory.id_shop=Shops.id_shop WHERE Inventory.id_shop = :id");
+    query.prepare("SELECT Shops.name_shop, Inventory.number FROM Inventory INNER JOIN Shops ON Inventory.id_shop=Shops.id_shop WHERE Inventory.id_item = :id");
     query.bindValue(":id", itemId);
     success = query.exec();
     while (query.next())
