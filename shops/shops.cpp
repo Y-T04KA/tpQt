@@ -10,7 +10,7 @@ Shops::Shops(QWidget *parent)
     connect(ui->createButton, &QPushButton::clicked, this, &Shops::on_createButton_clicked);
     connect(ui->deleteButton, &QPushButton::clicked, this, &Shops::on_deleteButton_clicked);
     connect(ui->updateButton, &QPushButton::clicked, this, &Shops::on_updateButton_clicked);
-
+    //в идеале надо класть в конфиг но нам пойдет
     data = new DataController("/home/yt04ka/CLionProjects/tpQt/data/tpdb.sqlite");
     fillTable();
 }
